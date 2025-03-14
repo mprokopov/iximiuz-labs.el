@@ -109,6 +109,7 @@ end tell" command)))
          (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))))
     (browse-url(format "https://labs.iximiuz.com/%s/%s" (concat type "s") parent-dir))))
 
+;;;###autoload
 (define-minor-mode labs-mode
   "Minor mode for Iximiuse Labs."
   :lighter "Labs"
@@ -116,6 +117,7 @@ end tell" command)))
             (define-key map (kbd "C-c c p") 'labs-push-current-material)
             (define-key map (kbd "C-c c b") 'labs-browse-current-material)
             map))
+
 
 (provide 'labs)
 ;;; labs.el ends here
