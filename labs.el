@@ -54,23 +54,24 @@
 (defun labs-fetch-playgrounds ()
   "Fetch playgrounds from Iximius Labs."
   (interactive)
-  ;; (and (get-buffer "*Labs Playgrounds*")
-  ;;      (kill-buffer "*Labs Playgrounds*"))
-  (let ((buffer (make-comint "Labs Playgrounds" "labctl" nil "playground" "list")))
-    (with-current-buffer buffer
-      (let ((proc (get-buffer-process buffer)))
+  (and (get-buffer "*Labs Playgrounds*")
+       (kill-buffer "*Labs Playgrounds*"))
+  (let ((buf (make-comint "Labs Playgrounds" "labctl" nil "playground" "list")))
+    (with-current-buffer buf
+      (let ((proc (get-buffer-process buf)))
         (when proc
           (set-process-sentinel
            proc
            (lambda (process event)
              (when (string= event "finished\n")
-               (with-current-buffer buffer
-                 (setq labs-playground-id (labs-get-playground-id))))))))))
+               (with-current-buffer (process-buffer process)
+                 (setq labs-playground-id (labs-get-playground-id))
+                 (message (format "Playgrounds fetched: %s" labs-playground-id))))))))))
   (switch-to-buffer "*Labs Playgrounds*"))
 
 (defun labs-ssh-iterm ()
   "SSH to Iximius Labs playground.
-  Make sure labctl is installed and configured."
+Make sure labctl is installed and configured."
   (interactive)
   (let* ((playground labs-playground-id)
          (command (format "labctl ssh %s" playground))
