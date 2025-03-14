@@ -33,11 +33,13 @@ Add to your Emacs configuration:
 
 ## Usage
 
-Enable the minor mode in relevant buffers:
+Enable the minor mode:
 
 ```elisp
-(add-hook 'prog-mode-hook 'labs-mode)
+M-x labs-mode
 ```
+
+Navigate to the material page in browser `C-c c b` and run a playground. 
 
 ### Keybindings
 
@@ -47,7 +49,7 @@ When `labs-mode` is active:
 - `C-c c b` - Browse current material in web browser
 
 ### Commands
-
+- `M-x labs-push-current-material` - Push material to the server
 - `M-x labs-fetch-playgrounds` - List all your playgrounds
 - `M-x labs-terminate-playground` - Terminate the current playground
 - `M-x labs-ssh-iterm` - SSH to the current playground using iTerm (macOS only)

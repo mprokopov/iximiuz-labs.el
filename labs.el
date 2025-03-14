@@ -18,6 +18,12 @@
 
 ;;; Code:
 
+(defgroup labs nil
+  "Iximiuz Labs nifties."
+  :group 'tools
+  :group 'convenience
+  :version "24.1")
+
 (defvar labs-playground-id ""
   "Current playground id.")
 
@@ -113,11 +119,13 @@ end tell" command)))
 (define-minor-mode labs-mode
   "Minor mode for Iximiuse Labs."
   :lighter "Labs"
+  :require 'labs
+  :group 'labs
+  :global t
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-c c p") 'labs-push-current-material)
             (define-key map (kbd "C-c c b") 'labs-browse-current-material)
             map))
-
 
 (provide 'labs)
 ;;; labs.el ends here
