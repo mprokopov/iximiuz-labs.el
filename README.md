@@ -20,7 +20,10 @@ Add to your Emacs configuration:
 ## Requirements
 
 - Emacs 24.3 or later
-- `labctl` command-line tool (must be installed and configured separately)
+- `labctl` command-line tool (must be installed and configured separately).
+```shell
+curl -sf https://labs.iximiuz.com/cli/install.sh | sh
+```
 - For macOS SSH integration: iTerm2
 
 ## Features
@@ -49,10 +52,13 @@ When `labs-mode` is active:
 - `C-c c b` - Browse current material in web browser
 
 ### Commands
-- `M-x labs-push-current-material` - Push material to the server
+- `M-x labs-push-current-material` - Push challenge, tutorial or course
 - `M-x labs-fetch-playgrounds` - List all your playgrounds
 - `M-x labs-terminate-playground` - Terminate the current playground
 - `M-x labs-ssh-iterm` - SSH to the current playground using iTerm (macOS only)
+
+### Variables
+- `labs-playground-id` - Current playground id
 
 ## License
 
