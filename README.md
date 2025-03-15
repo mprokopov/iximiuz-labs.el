@@ -1,6 +1,7 @@
 # labs.el - Iximius Labs Integration for Emacs
 
 This package provides integration with Iximius Labs playgrounds and learning materials.
+![](__static__/iximiuz.png)
 
 ## Installation
 
