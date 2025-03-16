@@ -34,6 +34,7 @@ curl -sf https://labs.iximiuz.com/cli/install.sh | sh
 - SSH into playgrounds directly from Emacs
 - Push learning materials to Iximius Labs
 - Browse current materials in your web browser
+- Create new learning materials
 
 ## Usage
 
@@ -57,9 +58,11 @@ When `labs-mode` is active:
 - `M-x labs-fetch-playgrounds` - List all your playgrounds
 - `M-x labs-terminate-playground` - Terminate the current playground
 - `M-x labs-ssh-iterm` - SSH to the current playground using iTerm (macOS only)
+- `M-x labs-create-material` - Create a new learning material (challenge, tutorial or course)
 
 ### Variables
 - `labs-playground-id` - Current playground id
+- `labs-playground-type` - Type of playground (challenge, tutorial, or course)
 
 ## License
 

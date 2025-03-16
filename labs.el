@@ -1,6 +1,5 @@
 ;;; labs.el --- Iximius Labs controls
-;;; Commentary: Manages Iximius Labs playgrounds and materials.
-
+;;; Commentary: Manages Iximius Labs playgrounds and authoring materials.
 ;;; Iximius Labs integration for Emacs
 ;;;
 ;; Copyright (C) 2025 Maksym Prokopov
@@ -14,8 +13,6 @@
 ;; Homepage: https://github.com/mprokopov/iximiuz-labs.el
 ;; Package-Requires: ((emacs "24.3"))
 
-(require 'url)
-
 ;;; Code:
 
 (defgroup labs nil
@@ -27,12 +24,22 @@
 (defvar labs-playground-id ""
   "Current playground id.")
 
+(defcustom labs-playground-type
+  "challenge" "Current playground-type."
+  ;; :type '(symbol)
+  :group 'labs
+  :type '(choice
+                (const :tag "Tutorial" "tutorial")
+                (const :tag "Challenge" "challenge")
+                (const :tag "Course" "course")))
+
 (defun labs-terminate-playground ()
   "Terminate current playground."
   (interactive)
   (if (string= labs-playground-id "")
       (message "No playground ID found")
-    (let ((buffer (make-comint "Labs Playgrounds" "labctl" nil "playground" "stop" labs-playground-id)))
+    (let ((buffer (make-comint "Labs Playgrounds" "labctl" nil
+                               "playground" "stop" labs-playground-id)))
       (with-current-buffer buffer
         (let ((proc (get-buffer-process buffer)))
           (when proc
@@ -114,6 +121,21 @@ end tell" command)))
          (parent-dir
          (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))))
     (browse-url(format "https://labs.iximiuz.com/%s/%s" (concat type "s") parent-dir))))
+
+(defun labs-create-material (material)
+  "Create new material MATERIAL."
+  (interactive "sName: ")
+  (message "Creating %s of type %s" material labs-playground-type)
+  (let ((buffer (make-comint "Labs" "labctl" nil "content" "create" labs-playground-type material "--no-sample")))
+    (with-current-buffer buffer
+      (let ((proc (get-buffer-process buffer)))
+        (when proc
+          (set-process-sentinel
+           proc
+           (lambda (process event)
+             (when (string= event "finished\n")
+               (message "Material created")))))))
+    (pop-to-buffer "*Labs*")))
 
 ;;;###autoload
 (define-minor-mode labs-mode
