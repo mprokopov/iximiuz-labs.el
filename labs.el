@@ -31,7 +31,8 @@
   :type '(choice
                 (const :tag "Tutorial" "tutorial")
                 (const :tag "Challenge" "challenge")
-                (const :tag "Course" "course")))
+                (const :tag "Course" "course")
+                (const :tag "Skill-Path" "skill-path")))
 
 (defun labs-terminate-playground ()
   "Terminate current playground."
@@ -95,7 +96,7 @@ end tell" command)))
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (if (re-search-forward "kind:\\s-*\\(\\w+\\)" nil t)
+    (if (re-search-forward "kind:\\s-*\\(.*\\)" nil t)
         (let ((value (match-string 1)))
           (message "Found kind: %s" value)
           value)
@@ -124,7 +125,7 @@ end tell" command)))
 
 (defun labs-create-material (material)
   "Create new material MATERIAL."
-  (interactive "sName: ")
+  (interactive "sMaterial: ")
   (message "Creating %s of type %s" material labs-playground-type)
   (let ((buffer (make-comint "Labs" "labctl" nil "content" "create" labs-playground-type material "--no-sample")))
     (with-current-buffer buffer
@@ -135,6 +136,35 @@ end tell" command)))
            (lambda (process event)
              (when (string= event "finished\n")
                (message "Material created")))))))
+    (pop-to-buffer "*Labs*")))
+
+(defun labs-remove-current-material ()
+  "Remove material MATERIAL."
+  (interactive)
+  (let* ((type (labs-extract-kind-value))
+         (buffer (make-comint "Labs" "labctl" nil "content" "remove" type labs-playground-id)))
+    (with-current-buffer buffer
+      (let ((proc (get-buffer-process buffer)))
+        (when proc
+          (set-process-sentinel
+           proc
+           (lambda (process event)
+             (when (string= event "finished\n")
+               (message "Material removed")))))))
+    (pop-to-buffer "*Labs*")))
+
+(defun labs-list-materials ()
+  "List materials."
+  (interactive)
+  (let ((buffer (make-comint "Labs" "labctl" nil "content" "list" labs-playground-type)))
+    (with-current-buffer buffer
+      (let ((proc (get-buffer-process buffer)))
+        (when proc
+          (set-process-sentinel
+           proc
+           (lambda (process event)
+             (when (string= event "finished\n")
+               (message "Materials listed")))))))
     (pop-to-buffer "*Labs*")))
 
 ;;;###autoload
