@@ -156,7 +156,7 @@ end tell" command)))
 (defun labs-list-materials ()
   "List materials."
   (interactive)
-  (let ((buffer (make-comint "Labs" "labctl" nil "content" "list" labs-playground-type)))
+  (let ((buffer (make-comint "Labs" "labctl" nil "content" "list" "--kind" labs-playground-type)))
     (with-current-buffer buffer
       (let ((proc (get-buffer-process buffer)))
         (when proc
