@@ -24,6 +24,10 @@
 (defvar labs-playground-id ""
   "Current playground id.")
 
+(defconst labs-playground-types
+  '("tutorial" "challenge" "course" "skill-path")
+  "List of available playground types.")
+
 (defcustom labs-playground-type
   "challenge" "Current playground-type."
   ;; :type '(symbol)
@@ -60,7 +64,7 @@
       (message "No playground ID found"))))
 
 (defun labs-fetch-playgrounds ()
-  "Fetch playgrounds from Iximius Labs."
+  "Fetch playgrogunds from Iximius Labs."
   (interactive)
   (and (get-buffer "*Labs Playgrounds*")
        (kill-buffer "*Labs Playgrounds*"))
@@ -153,10 +157,10 @@ end tell" command)))
                (message "Material removed")))))))
     (pop-to-buffer "*Labs*")))
 
-(defun labs-list-materials ()
-  "List materials."
-  (interactive)
-  (let ((buffer (make-comint "Labs" "labctl" nil "content" "list" "--kind" labs-playground-type)))
+(defun labs-list-materials (TYPE)
+  "List materials of type TYPE."
+  (interactive "sType: ")
+  (let ((buffer (make-comint "Labs" "labctl" nil "content" "list" "--kind" TYPE)))
     (with-current-buffer buffer
       (let ((proc (get-buffer-process buffer)))
         (when proc
