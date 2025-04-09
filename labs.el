@@ -46,6 +46,15 @@
                          (file-name-directory (buffer-file-name))))))
     (kill-new material-name)))
 
+(defun labs-kill-ring-material-name-and-replace ()
+  "Put material name into kill ring and replace - with _."
+  (interactive)
+  (let ((material-name (file-name-nondirectory
+                        (directory-file-name
+                         (file-name-directory (buffer-file-name))))))
+    (setq material-name (replace-regexp-in-string "-" "_" material-name))
+    (kill-new material-name)))
+
 (defun labs-terminate-playground ()
   "Terminate current playground."
   (interactive)
