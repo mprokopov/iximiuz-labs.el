@@ -38,6 +38,14 @@
                 (const :tag "Course" "course")
                 (const :tag "Skill-Path" "skill-path")))
 
+(defun labs-kill-ring-material-name ()
+  "Put material name into kill ring."
+  (interactive)
+  (let ((material-name (file-name-nondirectory
+                        (directory-file-name
+                         (file-name-directory (buffer-file-name))))))
+    (kill-new material-name)))
+
 (defun labs-terminate-playground ()
   "Terminate current playground."
   (interactive)
