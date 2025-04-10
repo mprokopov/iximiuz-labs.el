@@ -24,10 +24,6 @@
 (defvar labs-playground-id ""
   "Current playground id.")
 
-(defconst labs-playground-types
-  '("tutorial" "challenge" "course" "skill-path")
-  "List of available playground types.")
-
 (defcustom labs-playground-type
   "challenge" "Current playground-type."
   ;; :type '(symbol)
@@ -36,6 +32,7 @@
                 (const :tag "Tutorial" "tutorial")
                 (const :tag "Challenge" "challenge")
                 (const :tag "Course" "course")
+                (const :tag "Training" "training")
                 (const :tag "Skill-Path" "skill-path")))
 
 (defun labs-kill-ring-material-name ()
