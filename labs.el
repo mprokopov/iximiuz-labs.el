@@ -24,7 +24,7 @@
 (defvar labs-playground-id ""
   "Current playground id.")
 
-(defcustom labs-playground-type
+(defcustom labs-material-type
   "challenge" "Current playground-type."
   ;; :type '(symbol)
   :group 'labs
@@ -34,6 +34,11 @@
                 (const :tag "Course" "course")
                 (const :tag "Training" "training")
                 (const :tag "Skill-Path" "skill-path")))
+
+(defun labs-material-name ()
+  (file-name-nondirectory
+   (directory-file-name
+    (file-name-directory (buffer-file-name)))))
 
 (defun labs-kill-ring-material-name ()
   "Put material name into kill ring."
@@ -144,8 +149,8 @@ end tell" command)))
 (defun labs-create-material (material)
   "Create new material MATERIAL."
   (interactive "sMaterial: ")
-  (message "Creating %s of type %s" material labs-playground-type)
-  (let ((buffer (make-comint "Labs" "labctl" nil "content" "create" labs-playground-type material "--no-sample")))
+  (message "Creating %s of type %s" material labs-material-type)
+  (let ((buffer (make-comint "Labs" "labctl" nil "content" "create" labs-material-type material "--no-sample")))
     (with-current-buffer buffer
       (let ((proc (get-buffer-process buffer)))
         (when proc
